@@ -1,7 +1,10 @@
+<script lang="ts">
+  import { _ } from 'svelte-i18n'
+</script>
 <div class="p-8 flex justify-between">
   <p class="text-3xl font-bold text-[#6843B5] font-['Josefin_Sans']">Short<span class="text-white">{" "}Link</span></p>
   <nav class="text-xl text-white flex items-center gap-4 font-['Josefin_Sans']">
-    <p class="underline">Log In</p>
+    <p class="underline">{$_('login')}</p>
   </nav>
 </div>
 

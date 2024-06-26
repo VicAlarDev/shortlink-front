@@ -1,0 +1,19 @@
+{
+    "subtitle_links": "Generated Links",
+    "subtitle_clicks": "Serving clicks",
+    "subtitle_users": "Users",
+    "title_shorten_urls": "Shorten your URLs,",
+    "subtitle_fast_easy": "fast and easy",
+    "instruction_insert_link": "Insert your link here and get started",
+    "placeholder_paste_link": "Paste your link here",
+    "button_shorten": "Shorten",
+    "generating_url": "Your URL is being generated",
+    "url_ready": "Your URL is ready! 🎉",
+    "placeholder_url": "https://teamomichelito.com",
+    "button_copy": "Copy",
+    "alert_copied": "Copied to clipboard!",
+    "button_generate_qr": "Generate QR Code",
+    "alert_previous_url": "Previously, you created a URL.",
+    "alert_free_limit": "Without an account, you can shorten a maximum of one URL per day for free. Log in to unlock more features.",
+    "login": "Login"
+}

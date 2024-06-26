@@ -1,20 +1,27 @@
 <script lang="ts">
+  import { _ } from 'svelte-i18n'
   import Header from '$lib/components/Header.svelte'
   import Main from '$lib/components/Main.svelte';
   import Card from '$lib/components/Card.svelte';
+  import { onMount } from 'svelte';
 
-  let count = 0;
+  let links = 0;
+  let users = 0;
+  let clicks = 0;
 
   import { PaperClip, CursorArrowRays, UserGroup} from "svelte-hero-icons";
 
   async function getLinks() {
     const res = await fetch('http://127.0.0.1:3000/api/all/count');
     const data = await res.json();
-    count = data.count;
-    return data.count;
+    links = data.links;
+    users = data.users;
+    clicks = data.clicks;
   }
 
-  getLinks();
+  onMount(() => {
+    getLinks();
+  });
 </script>
 
 <body class="min-h-dvh">
@@ -22,9 +29,9 @@
   <Main />
 
   <div class="flex items-center justify-center w-full mt-20 gap-4">
-    <Card title="+{count}" subtitle="Generated Links" src={PaperClip} iconAlt="clip" />
-    <Card title="+1M" subtitle="Serving clicks" src={CursorArrowRays} iconAlt="clip" />
-    <Card title="+100" subtitle="Unique Visitors" src={UserGroup} iconAlt="clip" />
+    <Card title={`+${links}`} subtitle={$_('subtitle_links')} src={PaperClip} iconAlt="clip" />
+    <Card title={`+${clicks}`} subtitle={$_('subtitle_clicks')} src={CursorArrowRays} iconAlt="clip" />
+    <Card title={`+${users}`} subtitle={$_('subtitle_users')} src={UserGroup} iconAlt="clip" />
   </div>
 </body>
 

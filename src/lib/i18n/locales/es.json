@@ -1,0 +1,22 @@
+{
+    "title_links": "+enlaces",
+    "subtitle_links": "Enlaces generados",
+    "title_clicks": "+clics",
+    "subtitle_clicks": "Clicks en las URLs",
+    "title_users": "+usuarios",
+    "subtitle_users": "Usuarios",
+    "title_shorten_urls": "Acorta tus URLs,",
+    "subtitle_fast_easy": "rápido y fácil",
+    "instruction_insert_link": "Inserta tu enlace aquí para comenzar",
+    "placeholder_paste_link": "Pega tu enlace aquí",
+    "button_shorten": "Acortar",
+    "generating_url": "Tu URL está siendo generada",
+    "url_ready": "¡Tu URL está lista! 🎉",
+    "placeholder_url": "https://teamomichelito.com",
+    "button_copy": "Copiar",
+    "alert_copied": "¡Copiado al portapapeles!",
+    "button_generate_qr": "Generar Código QR",
+    "alert_previous_url": "Anteriormente, creaste una URL.",
+    "alert_free_limit": "Sin una cuenta, puedes acortar un máximo de una URL por día de forma gratuita. Inicia sesión para desbloquear más funciones.",
+    "login": "Iniciar sesión"
+}
