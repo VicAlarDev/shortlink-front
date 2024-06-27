@@ -1,10 +1,7 @@
 {
-    "title_links": "+enlaces",
     "subtitle_links": "Enlaces generados",
-    "title_clicks": "+clics",
     "subtitle_clicks": "Clicks en las URLs",
-    "title_users": "+usuarios",
-    "subtitle_users": "Usuarios",
+    "subtitle_users": "Usuarios Felices",
     "title_shorten_urls": "Acorta tus URLs,",
     "subtitle_fast_easy": "rápido y fácil",
     "instruction_insert_link": "Inserta tu enlace aquí para comenzar",
@@ -18,5 +15,14 @@
     "button_generate_qr": "Generar Código QR",
     "alert_previous_url": "Anteriormente, creaste una URL.",
     "alert_free_limit": "Sin una cuenta, puedes acortar un máximo de una URL por día de forma gratuita. Inicia sesión para desbloquear más funciones.",
-    "login": "Iniciar sesión"
+    "login": "Iniciar sesión",
+    "see_stats": "Ver Estadísticas",
+    "qr_ready": "Código QR listo ✅",
+    "download": "Descargar",
+    "alert_no_stats": "No hay estadísticas disponibles",
+    "url_stats": "Estadísticas de tu URL",
+    "total_clicks": "Clics Totales",
+    "country": "País",
+    "last_clicked_at": "Último Clic en",
+    "made_with": "Hecho con amor ❤️ por"
 }

@@ -6,14 +6,14 @@
     export let iconAlt: string;
 </script>
 
-<div class="w-[350px] h-[125px] rounded-3xl flex justify-center items-center text-white gap-8 tuclase">
+<div class="w-full max-w-[300px] sm:max-w-[350px] h-[125px] rounded-3xl flex justify-center items-center text-white gap-4 md:gap-8 p-4 tuclase">
   <div class="rounded-full bg-[#6843B5] bg-opacity-35 w-[70px] h-[70px] flex justify-center items-center">
-    <Icon src={src} alt={iconAlt} class="w-[50px] h-[50px] text-[#F1EAFE]" name = "user-group" />
+    <Icon src={src} alt={iconAlt} class="w-[50px] h-[50px] text-[#F1EAFE]" name="user-group" />
   </div>
 
   <div>
-    <p class="text-[#F1EAFE] text-3xl font-medium font-['Josefin_Sans']">{title}</p>
-    <p class="text-[#F1EAFE] text-xl font-light font-['Poppins']">{subtitle}</p>
+    <p class="text-[#F1EAFE] text-xl md:text-3xl font-medium font-['Josefin_Sans']">{title}</p>
+    <p class="text-[#F1EAFE] text-lg md:text-xl font-light font-['Poppins']">{subtitle}</p>
   </div>
 </div>
 

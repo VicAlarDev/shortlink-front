@@ -1,6 +1,6 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n'
-  import Modal from './Modal.svelte';
+  import Modal from './modal/Modal.svelte';
   import { onMount } from 'svelte';
   import { getCookie, setCookie, eraseCookie } from '../helpers/cookie';
 
@@ -61,16 +61,16 @@
   });
 </script>
 
-<div class="p-8 flex justify-center flex-col items-center">
+<div class="p-8 flex justify-center flex-col items-center text-center">
   <p class="text-6xl font-medium text-[#F1EAFE] font-['Josefin_Sans']">{$_('title_shorten_urls')}</p>
   <p class="text-6xl font-medium text-[#F1EAFE] font-['Josefin_Sans']">{$_('subtitle_fast_easy')}</p>
   <p class="text-xl mt-8 text-[#F1EAFE] font-['Poppins']">{$_('instruction_insert_link')}</p>
 </div>
 
-<div class="pl-8 pr-2 py-2 bg-[#120E1E] rounded-full border-[#3D354B] border-2 mt-8 w-6/12 flex mx-auto flex-col items-center">
+<div class="pl-8 pr-2 py-2 bg-[#120E1E] rounded-full border-[#3D354B] border-2 mt-8 lg:w-6/12 flex mx-auto md:flex-col items-center md:8/12 w-10/12">
   <form on:submit={shorten} class="w-full flex flex-row items-center">
     <input type="text" placeholder="{$_('placeholder_paste_link')}" class="w-full text-[#B7AECA] text-xl font-['Poppins'] bg-transparent border-none outline-none" />
-    <button class="w-fit px-8 py-4 text-[#F1EAFE] text-2xl font-['Josefin_Sans'] button border-none outline-none rounded-full button" type="submit">{$_('button_shorten')}</button>
+    <button class="w-fit md:px-8 md:py-4 px-4 py-2 text-[#F1EAFE] text-2xl font-['Josefin_Sans'] button border-none outline-none rounded-full button" type="submit">{$_('button_shorten')}</button>
   </form>
 </div>
 
