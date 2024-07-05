@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { _ } from 'svelte-i18n'
     import AddNew from './AddNew.svelte'
     import {
         createRender,
@@ -51,7 +52,7 @@
     const columns = table.createColumns([
         table.column({
             accessor: 'originalUrl',
-            header: 'Original URL',
+            header: $_('original_url'),
             cell: ({ value }) => {
                 // Truncate the URL if it's too long
                 if (value.length > 20) {
@@ -70,7 +71,7 @@
         }),
         table.column({
             accessor: 'shortCode',
-            header: 'Short URL',
+            header: $_('short_url'),
             cell: ({ value }) => {
                 return createRender(LinkA, {
                     href: value,
@@ -84,7 +85,7 @@
         }),
         table.column({
             accessor: 'createdAt',
-            header: 'Created At',
+            header: $_('created_at'),
             cell: ({ value }) => formatDate(value),
             plugins: {
                 filter: {
@@ -94,7 +95,7 @@
         }),
         table.column({
             accessor: 'expiresAt',
-            header: 'Expires At',
+            header: $_('expires_at'),
             cell: ({ value }) => formatDate(value),
             plugins: {
                 filter: {
@@ -104,12 +105,12 @@
         }),
         table.column({
             accessor: 'status',
-            header: 'Status',
+            header: $_('status'),
             cell: ({ value }) => {
                 return createRender(Badge, {
                     variant: value === 'Active' ? 'default' : 'destructive',
                     content: value,
-                    class: 'text-center',
+                    class: value === 'Active' ? 'bg-green-800' : 'text-white',
                 })
             },
             plugins: {
@@ -141,13 +142,13 @@
     <div class="flex items-center justify-between py-4">
         <Input
             class="max-w-sm font-['Poppins']"
-            placeholder="Search by URL"
+            placeholder={$_('search_by_url')}
             type="text"
             bind:value={$filterValue}
         />
         <AddNew />
     </div>
-    <div class="rounded-md border">
+    <div class="border rounded-md">
         <Table.Root {...$tableAttrs}>
             <Table.Header>
                 {#each $headerRows as headerRow}
@@ -216,13 +217,13 @@
             variant="outline"
             size="sm"
             on:click={() => ($pageIndex = $pageIndex - 1)}
-            disabled={!$hasPreviousPage}>Previous</Button
+            disabled={!$hasPreviousPage}>{$_('previous')}</Button
         >
         <Button
             variant="outline"
             size="sm"
             disabled={!$hasNextPage}
-            on:click={() => ($pageIndex = $pageIndex + 1)}>Next</Button
+            on:click={() => ($pageIndex = $pageIndex + 1)}>{$_('next')}</Button
         >
     </div>
 </div>

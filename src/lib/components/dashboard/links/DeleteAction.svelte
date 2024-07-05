@@ -1,10 +1,11 @@
 <script lang="ts">
+    import { _ } from 'svelte-i18n'
     import { page } from '$app/stores'
     import * as AlertDialog from '$lib/components/ui/alert-dialog'
     import { deleteShortCode, getLastSegment } from '$lib/utils'
     import { createEventDispatcher } from 'svelte'
     import toast from 'svelte-french-toast'
-    import { linkData } from '../../../stores/linkStore' // Importa el store
+    import { linkData } from '../../../stores/linkStore'
 
     export let shortCode: string
     export let show: boolean
@@ -37,9 +38,9 @@
         toast.promise(
             promise,
             {
-                loading: 'Deleting short code...',
-                success: 'Successfully deleted short code',
-                error: 'Failed to delete short code',
+                loading: $_('deleting_short_code'),
+                success: $_('success_deleting_short_code'),
+                error: $_('failed_to_delete_short_code'),
             },
             {
                 style: 'border-radius: 25px; background: #333; color: #fff;',
@@ -58,18 +59,17 @@
 <AlertDialog.Root bind:open={show}>
     <AlertDialog.Content>
         <AlertDialog.Header>
-            <AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>
+            <AlertDialog.Title>{$_('are_you_absolutely_sure')}</AlertDialog.Title>
             <AlertDialog.Description>
-                This action cannot be undone. This will permanently delete your
-                link and remove the stats of your link from our servers.
+                {$_('this_action_cannot_be_undone')}
             </AlertDialog.Description>
         </AlertDialog.Header>
         <AlertDialog.Footer>
             <AlertDialog.Cancel on:click={handleCancel}
-                >Cancel</AlertDialog.Cancel
+                >{$_('cancel')}</AlertDialog.Cancel
             >
             <AlertDialog.Action on:click={handleConfirm}
-                >Continue</AlertDialog.Action
+                >{$_('continue')}</AlertDialog.Action
             >
         </AlertDialog.Footer>
     </AlertDialog.Content>

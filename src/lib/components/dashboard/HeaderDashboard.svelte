@@ -2,7 +2,6 @@
     import { _ } from 'svelte-i18n'
     import ThemeSwitcher from './ThemeSwitcher.svelte'
     import Separator from '../ui/separator/separator.svelte'
-    import { goto, pushState, replaceState } from '$app/navigation'
     import { page } from '$app/stores'
 
     let currentPath = ''
@@ -10,7 +9,7 @@
     $: currentPath = $page.url.pathname
 </script>
 
-<div class="p-8 flex justify-between">
+<div class="flex justify-between p-8">
     <p class="text-3xl font-bold text-[#6843B5] font-['Josefin_Sans']">
         Short<span class="text-white">{' '}Link</span>
     </p>
@@ -19,7 +18,7 @@
             <a
                 href="/dashboard"
                 class="text-lg font-medium transition-colors text-primary-foreground hover:text-primary"
-                class:active={currentPath === '/dashboard'}>Home</a
+                class:active={currentPath === '/dashboard'}>{$_('home')}</a
             >
             <a
                 href="/dashboard/links"

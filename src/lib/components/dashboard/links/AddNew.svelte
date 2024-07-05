@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { _ } from 'svelte-i18n'
     import { page } from '$app/stores'
     import { linkData } from '../../../stores/linkStore'
     import { Icon, Plus } from 'svelte-hero-icons'
@@ -45,9 +46,9 @@
         toast.promise(
             promise,
             {
-                loading: 'Creating short link...',
-                success: 'Successfully created short link',
-                error: 'Failed to create short link',
+                loading: $_('creating_short_link'),
+                success: $_('success_creating_short_link'),
+                error: $_('failed_to_create_short_link'),
             },
             {
                 style: 'border-radius: 25px; background: #333; color: #fff;',
@@ -68,28 +69,28 @@
         class={buttonVariants({ variant: 'default' })}
         on:click={() => (open = true)}
     >
-        <Icon src={Plus} class="h-4 w-4" />
-        <span class="ml-2 font-['Poppins']">Create New Link</span>
+        <Icon src={Plus} class="w-4 h-4" />
+        <span class="ml-2 font-['Poppins']">{$_('create_new_link')}</span>
     </Dialog.Trigger>
     <Dialog.Content class="sm:max-w-[475px]">
         <Dialog.Header class="font-['Poppins']">
-            <Dialog.Title>Create New Link</Dialog.Title>
+            <Dialog.Title>{$_('create_new_link')}</Dialog.Title>
             <Dialog.Description>
-                Create a customized link to share with your friends and family.
+                {$_('create_a_custom_link')}
             </Dialog.Description>
         </Dialog.Header>
         <div class="grid gap-4 py-4 font-['Poppins']">
-            <div class="grid grid-cols-4 items-center gap-4">
-                <Label for="shortCode" class="text-right">Custom segment</Label>
+            <div class="grid items-center grid-cols-4 gap-4">
+                <Label for="shortCode" class="text-right">{$_('custom_segment')}</Label>
                 <Input
                     id="shortCode"
-                    placeholder="https://shortlink.com/[custom segment]"
+                    placeholder={$_('placeholder_custom_segment')}
                     class="col-span-3"
                     bind:value={shortCode}
                 />
             </div>
-            <div class="grid grid-cols-4 items-center gap-4">
-                <Label for="originalUrl" class="text-right">Original Url</Label>
+            <div class="grid items-center grid-cols-4 gap-4">
+                <Label for="originalUrl" class="text-right">{$_('original_url')}</Label>
                 <Input
                     id="originalUrl"
                     placeholder="https://cheese.com"
@@ -99,7 +100,7 @@
             </div>
         </div>
         <Dialog.Footer>
-            <Button type="button" on:click={handleSubmit}>Create</Button>
+            <Button type="button" on:click={handleSubmit}>{$_('create')}</Button>
         </Dialog.Footer>
     </Dialog.Content>
 </Dialog.Root>

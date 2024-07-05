@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { _ } from 'svelte-i18n'
     import {
         Link,
         UserGroup,
@@ -6,43 +7,57 @@
         CursorArrowRays,
     } from 'svelte-hero-icons'
     import CardDashboard from '$lib/components/dashboard/CardDashboard.svelte'
-    import DateRangerPicker from '$lib/components/dashboard/DateRangerPicker.svelte'
     import CountryStats from '$lib/components/dashboard/CountryStats.svelte'
+    import { type UserLinksStatsResponse } from '$lib/utils'
+    import { page } from '$app/stores'
+
+    let data: UserLinksStatsResponse
+
+    $: {
+        const { link } = $page.data
+        if (link) {
+            data = link
+        }
+    }
 </script>
 
-<div class="flex justify-between items-center">
+<div class="flex items-center justify-between">
     <h1 class="text-3xl font-bold font-['Josefin_Sans']">Dashboard</h1>
-
-    <DateRangerPicker />
 </div>
 
 <div class="flex flex-col gap-4 mt-8">
     <div class="grid grid-cols-4 gap-4">
         <CardDashboard
             icon={Link}
-            title="Total Links Created"
-            value={100}
-            descrption="Links created"
+            title={$_('total_links_created')}
+            value={data.totalLinks ?? $_('no_data')}
+            description={$_('number_of_links')}
         />
         <CardDashboard
             icon={CursorArrowRays}
-            title="Total Clicks"
-            value={100.0}
-            descrption="Clicks"
+            title={$_('total_clicks')}
+            value={data.totalClicks ?? $_('no_data')}
+            description="Clicks"
         />
         <CardDashboard
             icon={UserGroup}
-            title="Unique Visitors"
-            value={100}
-            descrption="Visits"
+            title={$_('unique_visitors')}
+            value="{data.uniqueVisitors ?? $_('no_data')}}"
+            description={$_('number_of_visits')}
         />
         <CardDashboard
             icon={GlobeAlt}
-            title="Total of countries"
-            value={100}
-            descrption="Countries accessed"
+            title={$_('total_of_countries')}
+            value={data.totalCountries ?? 'No data'}
         />
     </div>
 </div>
 
-<CountryStats />
+<CountryStats {data} />
+
+<style>
+    :global(.map) {
+        height: 100%;
+        width: 100%;
+    }
+</style>

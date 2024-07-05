@@ -1,15 +1,37 @@
 <script lang="ts">
-    import { Envelope, Eye, Icon, LockClosed } from 'svelte-hero-icons'
+    import { _ } from 'svelte-i18n'
+    import {
+        Envelope,
+        Eye,
+        EyeSlash,
+        Icon,
+        LockClosed,
+    } from 'svelte-hero-icons'
     import Google from './Google.svelte'
     import { createEventDispatcher } from 'svelte'
     import { goto } from '$app/navigation'
-    import { getCookie, setCookie, eraseCookie } from '../../helpers/cookie'
+    import { setCookie } from '../../helpers/cookie'
 
     let email = ''
     let password = ''
     let emailError = ''
     let passwordError = ''
     let generalError = ''
+    let showPassword = false
+
+    function togglePasswordVisibility() {
+        showPassword = !showPassword
+    }
+
+    function handleEmailInput(event: Event) {
+        const target = event.target as HTMLInputElement
+        email = target.value
+    }
+
+    function handlePasswordInput(event: Event) {
+        const target = event.target as HTMLInputElement
+        password = target.value
+    }
 
     const dispatch = createEventDispatcher()
 
@@ -26,11 +48,6 @@
 
         if (!validateEmail(email)) {
             emailError = 'Invalid email address'
-            return
-        }
-
-        if (password.length < 6) {
-            passwordError = 'Password must be at least 6 characters long'
             return
         }
 
@@ -60,56 +77,74 @@
 
 <form class="form" on:submit={handleSubmit}>
     <div class="flex-column">
-        <label for="email">Email </label>
+        <label for="email">{$_('email')}</label>
     </div>
     <div class="inputForm">
-        <Icon src={Envelope} alt="email" class="w-6 h-6" />
+        <div class="icon-container">
+            <Icon src={Envelope} alt="email" class="w-6 h-6" />
+        </div>
         <input
             name="email"
             type="text"
             class="input"
-            placeholder="Enter your Email"
-            bind:value={email}
+            placeholder={$_('placeholder_email')}
+            value={email}
+            on:input={handleEmailInput}
         />
     </div>
     {#if emailError}
-        <p class="text-red-500 text-sm">{emailError}</p>
+        <p class="text-sm text-red-500">{emailError}</p>
     {/if}
 
     <div class="flex-column">
-        <label for="password">Password </label>
+        <label for="password">{$_('password')}</label>
     </div>
     <div class="inputForm">
-        <Icon src={LockClosed} alt="password" class="w-6 h-6" />
+        <div class="icon-container">
+            <Icon src={LockClosed} alt="password" class="w-6 h-6" />
+        </div>
         <input
             name="password"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             class="input"
-            placeholder="Enter your Password"
-            bind:value={password}
+            placeholder={$_('placeholder_password')}
+            value={password}
+            on:input={handlePasswordInput}
         />
-        <Icon src={Eye} alt="eye" class="w-6 h-6 mr-4" />
+        <button
+            type="button"
+            class="password-toggle"
+            on:click={togglePasswordVisibility}
+        >
+            <Icon
+                src={showPassword ? EyeSlash : Eye}
+                alt="eye"
+                class="w-6 h-6"
+            />
+        </button>
     </div>
     {#if passwordError}
-        <p class="text-red-500 text-sm">{passwordError}</p>
+        <p class="text-sm text-red-500">{passwordError}</p>
     {/if}
 
     <div class="flex-row">
-        <span class="span">Forgot password?</span>
+        <span class="span">{$_('forgot_password')}</span>
     </div>
     {#if generalError}
-        <p class="text-red-500 text-sm text-center -mb-0">{generalError}</p>
+        <p class="-mb-0 text-sm text-center text-red-500">{generalError}</p>
     {/if}
-    <button type="submit" class="button-submit">Sign In</button>
-    <p class="p">Don't have an account? <span class="span">Sign Up</span></p>
-    <p class="p line">Or With</p>
+    <button type="submit" class="button-submit">{$_('login')}</button>
+    <p class="p">
+        {$_('dont_have_account')} <span class="span">{$_('signup')}</span>
+    </p>
+    <!-- <p class="p line">Or With</p>
 
     <div class="flex-row">
         <button class="btn google">
             <Google />
             Google
         </button>
-    </div>
+    </div> -->
 </form>
 
 <style>
@@ -158,10 +193,11 @@
         margin-left: 10px;
         border-radius: 10px;
         border: none;
-        width: 85%;
+        width: 100%;
         height: 100%;
         background-color: transparent;
         font-family: 'Poppins';
+        padding: 0 10px;
     }
 
     .input:focus {
@@ -170,6 +206,24 @@
 
     .inputForm:focus-within {
         border: 1.5px solid #2d79f3;
+    }
+
+    .password-toggle {
+        background: none;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px; /* Add some margin to align the icon properly */
+    }
+
+    .icon-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px; /* Adjust width as needed */
+        height: 100%;
     }
 
     .flex-row {

@@ -1,60 +1,46 @@
 <script lang="ts">
+    import { _ } from 'svelte-i18n'
+    import { onMount } from 'svelte'
     import * as Card from '$lib/components/ui/card/index.js'
     import { MapLibre, Marker, Popup } from 'svelte-maplibre'
+    import { type UserLinksStatsResponse } from '$lib/utils'
 
-    interface MarkerData {
+    export let data: UserLinksStatsResponse
+
+    let markers: Array<{
         lngLat: { lat: number; lng: number }
         label: string
         name: string
         value: number
-    }
+    }> = []
 
-    const markers: MarkerData[] = [
-        {
-            lngLat: { lat: 54.526, lng: -105.2551 },
-            label: 'NA',
-            name: 'North America',
-            value: 0.82,
-        },
-        {
-            lngLat: { lat: -14.235, lng: -51.9253 },
-            label: 'SA',
-            name: 'South America',
-            value: 2.04,
-        },
-        {
-            lngLat: { lat: 34.0479, lng: 100.6197 },
-            label: 'AS',
-            name: 'Asia',
-            value: 1.78,
-        },
-        {
-            lngLat: { lat: 54.526, lng: 15.2551 },
-            label: 'EU',
-            name: 'Europe',
-            value: 0.4,
-        },
-        {
-            lngLat: { lat: -8.7832, lng: 34.5085 },
-            label: 'AF',
-            name: 'Africa',
-            value: 2.58,
-        },
-        {
-            lngLat: { lat: -25.2744, lng: 133.7751 },
-            label: 'AU',
-            name: 'Australia',
-            value: 1.3,
-        },
-    ]
+    onMount(() => {
+        markers = data.links
+            .flatMap((link) => link.stats)
+            .filter(
+                (stat) =>
+                    stat.country !== 'Unknown' &&
+                    stat.latitude !== null &&
+                    stat.longitude !== null
+            )
+            .map((stat) => ({
+                lngLat: {
+                    lat: stat.latitude as number,
+                    lng: stat.longitude as number,
+                },
+                label: stat.country,
+                name: stat.country,
+                value: stat.count,
+            }))
+    })
 </script>
 
 <Card.Root class="xl:col-span-2">
     <Card.Header class="flex flex-row items-center">
         <div class="grid gap-2">
-            <Card.Title>Countries Accessed</Card.Title>
+            <Card.Title>{$_('countries_accessed')}</Card.Title>
             <Card.Description>
-                List of countries accessed by users in the last 30 days.
+                {$_('list_of_countries')}
             </Card.Description>
         </div>
     </Card.Header>
@@ -68,16 +54,16 @@
                 center={[-20, 0]}
                 interactive={true}
             >
-                {#each markers as { lngLat, label, name, value } (label)}
+                {#each markers as { lngLat, label, name, value }, index (index)}
                     <Marker
                         {lngLat}
-                        class="grid h-8 w-8 place-items-center rounded-full border border-gray-200 bg-red-300 text-black shadow-2xl focus:outline-2 focus:outline-black"
+                        class="grid w-8 h-8 text-black bg-red-300 border border-gray-200 rounded-full shadow-2xl place-items-center focus:outline-2 focus:outline-black"
                     >
                         <span>{label}</span>
 
                         <Popup openOn="hover" offset={[0, -10]}>
                             <div
-                                class="text-sm font-bold text-slate-950 flex flex-col"
+                                class="flex flex-col text-sm font-bold text-slate-950"
                             >
                                 <p>{name}</p>
                                 <p>Clicks: {value}</p>

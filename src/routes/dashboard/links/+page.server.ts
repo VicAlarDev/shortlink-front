@@ -1,4 +1,3 @@
-// src/routes/dashboard/+page.server.ts
 import type { ServerLoad } from '@sveltejs/kit'
 
 export const load: ServerLoad = async ({ fetch, parent }) => {
@@ -25,5 +24,6 @@ export const load: ServerLoad = async ({ fetch, parent }) => {
 
     return {
         links: data,
+        user,
     }
 }

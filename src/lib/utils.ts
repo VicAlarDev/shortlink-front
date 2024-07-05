@@ -92,3 +92,87 @@ export const getLastSegment = (url: string) => {
     const segments = url.split('/')
     return segments[segments.length - 1]
 }
+
+export type Stat = {
+    country: string
+    count: number
+    lastClickedAt: string | null
+}
+
+export type LinkResponse = {
+    id: string
+    shortCode: string
+    originalUrl: string
+    createdAt: string
+    updatedAt: string
+    expiresAt: string
+    clicks: {
+        id: string
+        clickedAt: string
+        referer: string | null
+        country: string | null
+        visitorId: string | null
+    }[]
+    totalClicks: number
+    uniqueClicks: number
+    status: 'Active' | 'Expired'
+    stats: {
+        country: string
+        count: number
+        lastClickedAt: string | null
+    }[]
+}
+
+export interface Click {
+    id: string;
+    clickedAt: string;
+    referer: string | null;
+    country: string | null;
+}
+
+export interface Stats {
+    country: string;
+    count: number;
+    lastClickedAt: string | null;
+    latitude: number | null;
+    longitude: number | null;
+}
+
+export interface ShortUrl {
+    id: string;
+    shortCode: string;
+    originalUrl: string;
+    createdAt: string;
+    updatedAt: string;
+    expiresAt: string | null;
+    clicks: Click[];
+    totalClicks: number;
+    uniqueClicks: number;
+    status: 'Active' | 'Expired';
+    stats: Stats[];
+}
+
+export interface UserLinksStatsResponse {
+    totalLinks: number;
+    totalClicks: number;
+    uniqueVisitors: number;
+    totalCountries: number;
+    links: ShortUrl[];
+}
+
+export function getTopCountries(stats: Stat[], maxCountries: number): Stat[] {
+    const sortedStats = stats.sort((a, b) => b.count - a.count)
+    const topCountries = sortedStats.slice(0, maxCountries)
+    const otherCountries = sortedStats.slice(maxCountries)
+    const otherCount = otherCountries.reduce((acc, curr) => acc + curr.count, 0)
+
+    if (otherCount > 0) {
+        topCountries.push({
+            country: 'Others',
+            count: otherCount,
+            lastClickedAt: null,
+        })
+    }
+
+    return topCountries
+}
