@@ -1,5 +1,7 @@
 import type { ServerLoad } from '@sveltejs/kit'
+import { _ } from 'svelte-i18n'
 import type { UserLinksStatsResponse } from '$lib/utils'
+import { BACKEND_URL } from '$lib/constants/link'
 
 export const load: ServerLoad = async ({ fetch, locals }) => {
     const { user } = locals
@@ -8,13 +10,15 @@ export const load: ServerLoad = async ({ fetch, locals }) => {
         throw new Error('User not found')
     }
 
-    const response = await fetch(`http://localhost:3000/api/user/links/stats`, {
+    const response = await fetch(`${BACKEND_URL}/api/user/links/stats`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${user.token}`,
         },
     })
+
+    console.log(response)
 
     if (!response.ok) {
         throw new Error('Failed to fetch link')
@@ -24,5 +28,6 @@ export const load: ServerLoad = async ({ fetch, locals }) => {
 
     return {
         link: data,
+        title: 'Dashboard - Shortlink',
     }
 }

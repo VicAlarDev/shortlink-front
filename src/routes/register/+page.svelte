@@ -1,18 +1,17 @@
 <script lang="ts">
-    import { _ } from 'svelte-i18n'
+    import FormRegister from '$lib/components/register/FormRegister.svelte'
     import { page } from '$app/stores'
-    import Form from '$lib/components/login/Form.svelte'
+    import { _ } from 'svelte-i18n'
 
     let titleP: string
 
     $: {
         const { title } = $page.data
-        titleP = title
     }
 </script>
 
 <svelte:head>
-    <title>{$_('title_login')} - Shortlink</title>
+    <title>{$_('title_register')} - Shortlink</title>
     <meta name="description" content={$_('content_login')} />
 </svelte:head>
 
@@ -23,7 +22,7 @@
         </p>
     </div>
     <div class="flex flex-col items-center justify-center flex-grow">
-        <Form />
+        <FormRegister />
     </div>
 </main>
 

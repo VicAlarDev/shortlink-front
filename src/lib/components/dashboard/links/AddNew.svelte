@@ -8,6 +8,7 @@
     import { Input } from '$lib/components/ui/input/index.js'
     import { Label } from '$lib/components/ui/label/index.js'
     import toast from 'svelte-french-toast'
+    import { BACKEND_URL } from '$lib/constants/link'
 
     let shortCode = ''
     let originalUrl = ''
@@ -20,7 +21,7 @@
     }
 
     const handleSubmit = async () => {
-        const promise = fetch('http://localhost:3000/api/shorten', {
+        const promise = fetch(`${BACKEND_URL}/api/shorten`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -81,7 +82,9 @@
         </Dialog.Header>
         <div class="grid gap-4 py-4 font-['Poppins']">
             <div class="grid items-center grid-cols-4 gap-4">
-                <Label for="shortCode" class="text-right">{$_('custom_segment')}</Label>
+                <Label for="shortCode" class="text-right"
+                    >{$_('custom_segment')}</Label
+                >
                 <Input
                     id="shortCode"
                     placeholder={$_('placeholder_custom_segment')}
@@ -90,7 +93,9 @@
                 />
             </div>
             <div class="grid items-center grid-cols-4 gap-4">
-                <Label for="originalUrl" class="text-right">{$_('original_url')}</Label>
+                <Label for="originalUrl" class="text-right"
+                    >{$_('original_url')}</Label
+                >
                 <Input
                     id="originalUrl"
                     placeholder="https://cheese.com"
@@ -100,7 +105,8 @@
             </div>
         </div>
         <Dialog.Footer>
-            <Button type="button" on:click={handleSubmit}>{$_('create')}</Button>
+            <Button type="button" on:click={handleSubmit}>{$_('create')}</Button
+            >
         </Dialog.Footer>
     </Dialog.Content>
 </Dialog.Root>

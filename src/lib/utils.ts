@@ -2,6 +2,7 @@ import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 import { cubicOut } from 'svelte/easing'
 import type { TransitionConfig } from 'svelte/transition'
+import { BACKEND_URL } from '$lib/constants/link'
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
@@ -74,7 +75,7 @@ export const formatDate = (dateString: string) => {
 }
 
 export const deleteShortCode = async (shortCode: string, token: string) => {
-    const response = await fetch(`http://localhost:3000/api/${shortCode}`, {
+    const response = await fetch(`${BACKEND_URL}/api/${shortCode}`, {
         method: 'DELETE',
         headers: {
             Authorization: `Bearer ${token}`,
@@ -112,6 +113,7 @@ export type LinkResponse = {
         referer: string | null
         country: string | null
         visitorId: string | null
+        link: string
     }[]
     totalClicks: number
     uniqueClicks: number
@@ -124,40 +126,40 @@ export type LinkResponse = {
 }
 
 export interface Click {
-    id: string;
-    clickedAt: string;
-    referer: string | null;
-    country: string | null;
+    id: string
+    clickedAt: string
+    referer: string | null
+    country: string | null
 }
 
 export interface Stats {
-    country: string;
-    count: number;
-    lastClickedAt: string | null;
-    latitude: number | null;
-    longitude: number | null;
+    country: string
+    count: number
+    lastClickedAt: string | null
+    latitude: number | null
+    longitude: number | null
 }
 
 export interface ShortUrl {
-    id: string;
-    shortCode: string;
-    originalUrl: string;
-    createdAt: string;
-    updatedAt: string;
-    expiresAt: string | null;
-    clicks: Click[];
-    totalClicks: number;
-    uniqueClicks: number;
-    status: 'Active' | 'Expired';
-    stats: Stats[];
+    id: string
+    shortCode: string
+    originalUrl: string
+    createdAt: string
+    updatedAt: string
+    expiresAt: string | null
+    clicks: Click[]
+    totalClicks: number
+    uniqueClicks: number
+    status: 'Active' | 'Expired'
+    stats: Stats[]
 }
 
 export interface UserLinksStatsResponse {
-    totalLinks: number;
-    totalClicks: number;
-    uniqueVisitors: number;
-    totalCountries: number;
-    links: ShortUrl[];
+    totalLinks: number
+    totalClicks: number
+    uniqueVisitors: number
+    totalCountries: number
+    links: ShortUrl[]
 }
 
 export function getTopCountries(stats: Stat[], maxCountries: number): Stat[] {

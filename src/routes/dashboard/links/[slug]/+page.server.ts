@@ -1,11 +1,12 @@
 import type { ServerLoad } from '@sveltejs/kit'
 import { getLastSegment } from '$lib/utils'
+import { BACKEND_URL } from '$lib/constants/link'
 
 export const load: ServerLoad = async ({ fetch, params, parent }) => {
     const { slug } = params
     const { user } = await parent()
 
-    const response = await fetch(`http://localhost:3000/api/url/${slug}`, {
+    const response = await fetch(`${BACKEND_URL}/api/url/${slug}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

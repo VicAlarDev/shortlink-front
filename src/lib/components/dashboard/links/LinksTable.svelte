@@ -148,6 +148,7 @@
         />
         <AddNew />
     </div>
+
     <div class="border rounded-md">
         <Table.Root {...$tableAttrs}>
             <Table.Header>
@@ -187,28 +188,41 @@
                 {/each}
             </Table.Header>
             <Table.Body {...$tableBodyAttrs}>
-                {#each $pageRows as row (row.id)}
-                    <Subscribe rowAttrs={row.attrs()} let:rowAttrs>
-                        <Table.Row {...rowAttrs}>
-                            {#each row.cells as cell (cell.id)}
-                                <Subscribe attrs={cell.attrs()} let:attrs>
-                                    <Table.Cell
-                                        {...attrs}
-                                        class="font-['Poppins']"
-                                    >
-                                        {#if cell.id === 'status'}
-                                            <div class="ml-[0.8rem]">
+                {#if $pageRows.length === 0}
+                    <tr>
+                        <td
+                            colspan="6"
+                            class="text-center p-4 font-['Poppins'] text-lg text-gray-500"
+                        >
+                            Currently no data available
+                        </td>
+                    </tr>
+                {:else}
+                    {#each $pageRows as row (row.id)}
+                        <Subscribe rowAttrs={row.attrs()} let:rowAttrs>
+                            <Table.Row {...rowAttrs}>
+                                {#each row.cells as cell (cell.id)}
+                                    <Subscribe attrs={cell.attrs()} let:attrs>
+                                        <Table.Cell
+                                            {...attrs}
+                                            class="font-['Poppins']"
+                                        >
+                                            {#if cell.id === 'status'}
+                                                <div class="ml-[0.8rem]">
+                                                    <Render
+                                                        of={cell.render()}
+                                                    />
+                                                </div>
+                                            {:else}
                                                 <Render of={cell.render()} />
-                                            </div>
-                                        {:else}
-                                            <Render of={cell.render()} />
-                                        {/if}
-                                    </Table.Cell>
-                                </Subscribe>
-                            {/each}
-                        </Table.Row>
-                    </Subscribe>
-                {/each}
+                                            {/if}
+                                        </Table.Cell>
+                                    </Subscribe>
+                                {/each}
+                            </Table.Row>
+                        </Subscribe>
+                    {/each}
+                {/if}
             </Table.Body>
         </Table.Root>
     </div>

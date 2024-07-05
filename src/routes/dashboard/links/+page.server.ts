@@ -1,14 +1,14 @@
 import type { ServerLoad } from '@sveltejs/kit'
+import { BACKEND_URL } from '$lib/constants/link'
 
 export const load: ServerLoad = async ({ fetch, parent }) => {
-    // Accede a los datos del layout a través de parent
     const { user } = await parent()
 
     if (!user) {
         throw new Error('User not found')
     }
 
-    const response = await fetch('http://localhost:3000/api/all', {
+    const response = await fetch(`${BACKEND_URL}/api/all`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -25,5 +25,6 @@ export const load: ServerLoad = async ({ fetch, parent }) => {
     return {
         links: data,
         user,
+        title: 'Links - Shortlink',
     }
 }

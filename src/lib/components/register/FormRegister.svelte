@@ -7,21 +7,27 @@
         Icon,
         LockClosed,
     } from 'svelte-hero-icons'
-    import Google from './Google.svelte'
     import { createEventDispatcher } from 'svelte'
     import { goto } from '$app/navigation'
-    import { setCookie } from '../../helpers/cookie'
     import { BACKEND_URL } from '$lib/constants/link'
+    import { setCookie } from '$lib/helpers/cookie'
 
     let email = ''
     let password = ''
+    let confirmPassword = ''
     let emailError = ''
     let passwordError = ''
+    let confirmPasswordError = ''
     let generalError = ''
     let showPassword = false
+    let showConfirmPassword = false
 
     function togglePasswordVisibility() {
         showPassword = !showPassword
+    }
+
+    function toggleConfirmPasswordVisibility() {
+        showConfirmPassword = !showConfirmPassword
     }
 
     function handleEmailInput(event: Event) {
@@ -34,6 +40,11 @@
         password = target.value
     }
 
+    function handleConfirmPasswordInput(event: Event) {
+        const target = event.target as HTMLInputElement
+        confirmPassword = target.value
+    }
+
     const dispatch = createEventDispatcher()
 
     function validateEmail(email: string) {
@@ -41,10 +52,31 @@
         return re.test(String(email).toLowerCase())
     }
 
+    function validatePassword(password: string) {
+        const errors = []
+        if (password.length < 6) {
+            errors.push('Password must be at least 6 characters long.')
+        }
+        if (!/[A-Z]/.test(password)) {
+            errors.push('Password must contain at least one uppercase letter.')
+        }
+        if (!/[a-z]/.test(password)) {
+            errors.push('Password must contain at least one lowercase letter.')
+        }
+        if (!/[0-9]/.test(password)) {
+            errors.push('Password must contain at least one digit.')
+        }
+        if (!/[!@#$%^&.*]/.test(password)) {
+            errors.push('Password must contain at least one special character.')
+        }
+        return errors
+    }
+
     async function handleSubmit(event: SubmitEvent) {
         event.preventDefault()
         emailError = ''
         passwordError = ''
+        confirmPasswordError = ''
         generalError = ''
 
         if (!validateEmail(email)) {
@@ -52,8 +84,19 @@
             return
         }
 
+        const passwordValidationErrors = validatePassword(password)
+        if (passwordValidationErrors.length > 0) {
+            passwordError = passwordValidationErrors.join(' ')
+            return
+        }
+
+        if (password !== confirmPassword) {
+            confirmPasswordError = 'Passwords do not match'
+            return
+        }
+
         try {
-            const response = await fetch(`${BACKEND_URL}/api/login`, {
+            const response = await fetch(`${BACKEND_URL}/api/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -62,16 +105,33 @@
             })
 
             if (response.ok) {
-                const data = await response.json()
-                console.log(data)
-                setCookie('shortlink-token', data.token, 1, 'Lax')
-                goto('/dashboard')
+                try {
+                    const response = await fetch(`${BACKEND_URL}/api/login`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ email, password }),
+                    })
+
+                    if (response.ok) {
+                        const data = await response.json()
+                        console.log(data)
+                        setCookie('shortlink-token', data.token, 1, 'Lax')
+                        goto('/dashboard')
+                    } else {
+                        const errorData = await response.json()
+                        generalError = errorData.error || 'Failed to login'
+                    }
+                } catch (error) {
+                    generalError = 'Failed to login'
+                }
             } else {
                 const errorData = await response.json()
-                generalError = errorData.error || 'Failed to login'
+                generalError = errorData.message || 'Failed to register'
             }
         } catch (error) {
-            generalError = 'Failed to login'
+            generalError = 'Failed to register'
         }
     }
 </script>
@@ -128,25 +188,45 @@
         <p class="text-sm text-red-500">{passwordError}</p>
     {/if}
 
-    <div class="flex-row">
-        <span class="span">{$_('forgot_password')}</span>
+    <div class="flex-column">
+        <label for="confirmPassword">{$_('confirm_password')}</label>
     </div>
+    <div class="inputForm">
+        <div class="icon-container">
+            <Icon src={LockClosed} alt="confirmPassword" class="w-6 h-6" />
+        </div>
+        <input
+            name="confirmPassword"
+            type={showConfirmPassword ? 'text' : 'password'}
+            class="input"
+            placeholder={$_('placeholder_confirm_password')}
+            value={confirmPassword}
+            on:input={handleConfirmPasswordInput}
+        />
+        <button
+            type="button"
+            class="password-toggle"
+            on:click={toggleConfirmPasswordVisibility}
+        >
+            <Icon
+                src={showConfirmPassword ? EyeSlash : Eye}
+                alt="eye"
+                class="w-6 h-6"
+            />
+        </button>
+    </div>
+    {#if confirmPasswordError}
+        <p class="text-sm text-red-500">{confirmPasswordError}</p>
+    {/if}
+
     {#if generalError}
         <p class="-mb-0 text-sm text-center text-red-500">{generalError}</p>
     {/if}
-    <button type="submit" class="button-submit">{$_('login')}</button>
+    <button type="submit" class="button-submit">{$_('register')}</button>
     <p class="p">
-        {$_('dont_have_account')}
-        <a href="/register" class="span">{$_('signup')}</a>
+        {$_('already_have_account')}
+        <a href="/login" class="span">{$_('login')}</a>
     </p>
-    <!-- <p class="p line">Or With</p>
-
-    <div class="flex-row">
-        <button class="btn google">
-            <Google />
-            Google
-        </button>
-    </div> -->
 </form>
 
 <style>

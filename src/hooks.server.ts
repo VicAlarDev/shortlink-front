@@ -1,10 +1,8 @@
 import { authenticateUser } from '$lib/server/auth'
 import { redirect, type Handle } from '@sveltejs/kit'
 
-// Define the routes that we want to be possible to access without auth
-const public_paths = ['/signup', '/login']
+const public_paths = ['/register', '/login', '/']
 
-// Function to verify if the request path is inside the public_paths array
 function isPathAllowed(path: string) {
     return public_paths.some(
         (allowedPath) =>

@@ -79,5 +79,15 @@
     "actions": "Actions",
     "copy_short_url": "Copy short URL",
     "view_link_stats": "View Link Stats",
-    "delete_link": "Delete Link"
+    "delete_link": "Delete Link",
+    "logout": "Logout",
+    "register": "Register",
+    "already_have_account": "Already have an account?",
+    "placeholder_confirm_password": "Confirm your password",
+    "confirm_password": "Confirm Password",
+    "content_dashboard": "Dashboard for your links, statistics, and more.",
+    "content_links": "List of your links.",
+    "content_login": "Login to your Shortlink account.",
+    "title_register": "Register",
+    "title_login": "Login"
 }

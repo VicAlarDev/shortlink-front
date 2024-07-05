@@ -79,5 +79,15 @@
     "actions": "Acciones",
     "copy_short_url": "Copiar URL corta",
     "view_link_stats": "Ver Estadísticas del Enlace",
-    "delete_link": "Eliminar Enlace"
+    "delete_link": "Eliminar Enlace",
+    "logout": "Cerrar sesión",
+    "register": "Registrarse",
+    "already_have_account": "¿Ya tienes una cuenta?",
+    "placeholder_confirm_password": "Confirma tu contraseña",
+    "confirm_password": "Confirmar Contraseña",
+    "content_dashboard": "Dashboard de tus enlaces, estadísticas y más.",
+    "content_links": "Lista de tus enlaces.",
+    "content_login": "Iniciar sesión en tu cuenta de Shortlink.",
+    "title_register": "Registrarse",
+    "title_login": "Iniciar sesión"
 }

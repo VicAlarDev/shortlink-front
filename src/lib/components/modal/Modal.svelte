@@ -10,6 +10,7 @@
     import QRCodeView from './QRCodeView.svelte'
     import StatsView from './StatsView.svelte'
     import QRCode from 'qrcode'
+    import { BACKEND_URL } from '$lib/constants/link'
 
     export let open: boolean
     export let isLoading: boolean = false
@@ -68,7 +69,7 @@
         isLoading = true
         try {
             const response = await fetch(
-                `http://localhost:3000/api/url/random/${lastSegmentOfUrl}`
+                `${BACKEND_URL}/api/url/random/${lastSegmentOfUrl}`
             )
             if (response.ok) {
                 const data = await response.json()

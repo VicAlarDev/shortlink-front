@@ -12,21 +12,28 @@
     import { page } from '$app/stores'
 
     let data: UserLinksStatsResponse
+    let titleP: string
 
     $: {
-        const { link } = $page.data
+        const { link, title } = $page.data
         if (link) {
             data = link
+            titleP = title
         }
     }
 </script>
+
+<svelte:head>
+    <title>{titleP}</title>
+    <meta name="description" content={$_('content_dashboard')} />
+</svelte:head>
 
 <div class="flex items-center justify-between">
     <h1 class="text-3xl font-bold font-['Josefin_Sans']">Dashboard</h1>
 </div>
 
 <div class="flex flex-col gap-4 mt-8">
-    <div class="grid grid-cols-4 gap-4">
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <CardDashboard
             icon={Link}
             title={$_('total_links_created')}
@@ -42,7 +49,7 @@
         <CardDashboard
             icon={UserGroup}
             title={$_('unique_visitors')}
-            value="{data.uniqueVisitors ?? $_('no_data')}}"
+            value={data.uniqueVisitors ?? $_('no_data')}
             description={$_('number_of_visits')}
         />
         <CardDashboard

@@ -1,4 +1,5 @@
 import type { RequestEvent } from '@sveltejs/kit'
+import { BACKEND_URL } from '$lib/constants/link'
 
 export const authenticateUser = async (event: RequestEvent) => {
     const token = event.cookies.get('shortlink-token')
@@ -8,7 +9,7 @@ export const authenticateUser = async (event: RequestEvent) => {
     }
 
     try {
-        const response = await fetch('http://localhost:3000/api/validate', {
+        const response = await fetch(`${BACKEND_URL}/api/validate`, {
             method: 'POST',
             body: JSON.stringify({ token }),
         })
