@@ -2,12 +2,12 @@
     import HeaderDashboard from '$lib/components/dashboard/HeaderDashboard.svelte'
 </script>
 
-<div class="dark:bg-background h-screen">
+<div class="h-screen dark:bg-background">
     <HeaderDashboard />
 
-    <div class="flex h-screen overflow-y-hidden">
+    <div class="flex">
         <div class="flex-1 overflow-y-auto">
-            <div class="mx-auto max-w-full px-4 py-6 sm:px-6 md:px-8">
+            <div class="max-w-full px-4 py-6 mx-auto sm:px-6 md:px-8">
                 <main>
                     <slot />
                 </main>
