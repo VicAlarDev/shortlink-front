@@ -9,10 +9,19 @@
     let shortCode: string = ''
     let isLoading = false
     let openedFromCookie = false
+    let isValidUrl = true
+
     async function shorten(event: SubmitEvent): Promise<void> {
         event.preventDefault()
         const target = event.target as HTMLFormElement
         const input = target[0] as HTMLInputElement
+
+        if (!input.checkValidity()) {
+            isValidUrl = false
+            return
+        } else {
+            isValidUrl = true
+        }
 
         const storedShortCode = getCookie('shortCode')
         if (storedShortCode) {
@@ -79,15 +88,20 @@
 >
     <form on:submit={shorten} class="flex flex-row items-center w-full">
         <input
-            type="text"
+            type="url"
             placeholder={$_('placeholder_paste_link')}
             class="w-full text-[#B7AECA] text-xl font-['Poppins'] bg-transparent border-none outline-none"
+            pattern="https?://.+"
+            required
         />
         <button
             class="w-fit md:px-8 md:py-4 px-4 py-2 text-[#F1EAFE] text-2xl font-['Josefin_Sans'] button border-none outline-none rounded-full button"
             type="submit">{$_('button_shorten')}</button
         >
     </form>
+    {#if !isValidUrl}
+        <p class="mt-2 text-sm text-red-500">{$_('invalid_url_message')}</p>
+    {/if}
 </div>
 
 <Modal

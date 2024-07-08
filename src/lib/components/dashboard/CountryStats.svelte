@@ -19,12 +19,12 @@
         : []
 </script>
 
-<div class="flex flex-col justify-between gap-4 mt-8 lg:flex-row">
-    <div class="w-full lg:w-3/4">
+<div class="flex flex-col justify-between gap-4 mt-8 xl:flex-row">
+    <div class="w-full xl:w-3/4">
         <Map {data} />
     </div>
 
-    <div class="w-full lg:w-1/4">
+    <div class="w-full xl:w-1/4">
         <RecentClicks {clicks} showFrom={false} limit={10} />
     </div>
 </div>
