@@ -39,7 +39,7 @@
             </div>
         {:else}
             {#each clicksToShow as click}
-                <div class="flex items-center gap-4">
+                <div class="flex flex-wrap items-center gap-4">
                     {#if click.country === 'Unknown' || click.country === null}
                         <Icon
                             src={GlobeAlt}
@@ -53,21 +53,23 @@
                         />
                     {/if}
 
-                    <div class="grid gap-1">
-                        <p class="text-sm font-medium leading-none">
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium leading-none truncate">
                             {click.country || $_('unknown')}
                         </p>
                         {#if showFrom}
-                            <p class="text-sm text-muted-foreground">
+                            <p class="text-sm truncate text-muted-foreground">
                                 {$_('from')}: {click.referer || $_('direct')}
                             </p>
                         {:else}
-                            <p class="text-sm text-muted-foreground">
+                            <p class="text-sm truncate text-muted-foreground">
                                 {!link ? click.link : $_('unknown')}
                             </p>
                         {/if}
                     </div>
-                    <div class="ml-auto font-medium">
+                    <div
+                        class="w-full text-sm font-medium text-right whitespace-nowrap sm:w-auto"
+                    >
                         {formatDistanceToNow(new Date(click.clickedAt), {
                             addSuffix: true,
                         })}
@@ -77,3 +79,11 @@
         {/if}
     </Card.Content>
 </Card.Root>
+
+<style>
+    .truncate {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+</style>
